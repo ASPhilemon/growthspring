@@ -11,32 +11,53 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateInnerView(section) {
         const content = section.querySelector(".content");
-        const innerDivs = section.querySelectorAll(".inner");
-        const dots = section.querySelectorAll(".dot");
+        let innerDivs;
+        
+        // Special case for #objectives
+        if (section.id === "objectives") {
+            if (window.innerWidth < 768) {
+                innerDivs = section.querySelectorAll(".mobile-view");
+            } else {
+                innerDivs = section.querySelectorAll(".desktop-view");
+            }
+        } else {
+            innerDivs = section.querySelectorAll(".inner");
+        }
+
+        const dotsContainer = section.querySelector(".dots");
+        dotsContainer.innerHTML = ""; // Clear existing dots
+        innerDivs.forEach((_, idx) => {
+            const dot = document.createElement("div");
+            dot.classList.add("dot");
+            if (idx === 0) dot.classList.add("active");
+            dotsContainer.appendChild(dot);
+        });
+
+        const dots = dotsContainer.querySelectorAll(".dot");
 
         function showInner(index) {
-            if (innerDivs[index]) { // Ensure index is within bounds
+            if (innerDivs[index]) {
                 content.scrollTo({
-                    left: index * innerDivs[0].offsetWidth, // Use the width of the first inner div
+                    left: index * innerDivs[0].offsetWidth,
                     behavior: "smooth"
                 });
             }
         }
 
         content.addEventListener("scroll", () => {
-            const index = Math.round(content.scrollLeft / innerDivs[0].offsetWidth); // Use the width of the first inner div
+            const index = Math.round(content.scrollLeft / innerDivs[0].offsetWidth);
             dots.forEach((dot, i) => dot.classList.toggle("active", i === index));
         });
 
         section.querySelector(".right-arrow").addEventListener("click", () => {
-            let index = Math.round(content.scrollLeft / innerDivs[0].offsetWidth); // Use the width of the first inner div
-            index = Math.min(index + 1, innerDivs.length - 1); // Prevent going beyond the last div
+            let index = Math.round(content.scrollLeft / innerDivs[0].offsetWidth);
+            index = Math.min(index + 1, innerDivs.length - 1);
             showInner(index);
         });
 
         section.querySelector(".left-arrow").addEventListener("click", () => {
-            let index = Math.round(content.scrollLeft / innerDivs[0].offsetWidth); // Use the width of the first inner div
-            index = Math.max(index - 1, 0); // Prevent going below the first div
+            let index = Math.round(content.scrollLeft / innerDivs[0].offsetWidth);
+            index = Math.max(index - 1, 0);
             showInner(index);
         });
 
@@ -71,19 +92,17 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // Initialize all section views
     sections.forEach(section => {
-        const innerDivs = section.querySelectorAll(".inner");
-        const dotsContainer = section.querySelector(".dots");
-
-        innerDivs.forEach((_, idx) => {
-            const dot = document.createElement("div");
-            dot.classList.add("dot");
-            if (idx === 0) dot.classList.add("active");
-            dotsContainer.appendChild(dot);
-        });
-
         updateInnerView(section);
     });
 
     updateNav();
+
+    // Re-initialize view on resize to handle mobile/desktop switch
+    window.addEventListener("resize", () => {
+        sections.forEach(section => {
+            updateInnerView(section);
+        });
+    });
 });
