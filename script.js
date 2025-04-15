@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let innerDivs;
         
         // Special case for #objectives
-        if (section.id === "objectives") {
+        if (section.id === "pictures") {
             if (window.innerWidth < 768) {
                 innerDivs = section.querySelectorAll(".mobile-view");
             } else {

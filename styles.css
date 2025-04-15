@@ -6,6 +6,13 @@
     box-sizing: border-box;
 }
 
+html, body {
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  touch-action: manipulation;
+}
+
 body {
     font-family: Quicksand;
     overflow: hidden;
@@ -39,9 +46,10 @@ header {
 .login-btn {
 color: white;
 font-weight: bold;
-padding: 2vh;
+padding: 8px;
 background-color: #143A61;
 border-radius: 5px;
+font-size: 1rem;
 }
 
 nav {
@@ -53,8 +61,11 @@ nav {
     top: 8vh; /* Below header */
     width: 100vw;
     z-index: 15;
-    height: 5vh; /* Fixed nav height */
     font-size: 2vh;
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 1rem; /* spacing between nav items */
+    scrollbar-width: none; /* Hide scrollbar in Firefox */
 }
 
 nav ul {
@@ -63,11 +74,16 @@ nav ul {
     gap: 2vw;
 }
 
-.nav-item {
-    color: gold;
-    cursor: pointer;
-    padding: 0 2vw;
+nav::-webkit-scrollbar {
+  display: none; /* Hide scrollbar in WebKit browsers */
 }
+
+.nav-item {
+  color: gold;
+  flex: 0 0 auto; 
+  cursor: pointer;
+}
+
 
 .nav-item.active {
     border-bottom: 0.3vh solid gold;
@@ -80,7 +96,7 @@ main {
     height: calc(100vh - 9vh - 5vh); /* 100vh minus header and nav */
     scroll-snap-type: y mandatory;
     overflow-y: auto;
-    margin-top: calc(9vh + 5vh); /* Push content below header & nav */
+    margin-top: calc(9vh + 5vh); 
     
 }
 
@@ -93,6 +109,7 @@ main {
     height: calc(100vh - 9vh - 5vh); /* Adjust dynamically */  
     flex-shrink: 0;
     scroll-snap-align: start;
+    scroll-snap-stop: always;
     background: rgb(199, 196, 196);
     position: relative;
     overflow: hidden;
@@ -106,14 +123,14 @@ main {
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch; /* For iOS */
     width: 100vw;
-    height: 90vh;
+    height: 100%;
 }
 
 /* Each .inner is now a horizontal slide */
 .inner {
     flex: 0 0 100vw;
     scroll-snap-align: start;
-    font-size: 19px;
+    font-size: 1.2rem;
     background: rgb(228, 226, 226);
     max-width: 50vw;
     padding-left: 3vw;
@@ -178,9 +195,7 @@ main {
   }
 
 
-  .pictures {
-    height: 80vh;
-  }
+
 
  .pic-headings {
 padding-bottom: 1vh;
@@ -318,6 +333,10 @@ padding-bottom: 1vh;
     height: 80vh;
     }
 
+    main {
+    margin-top: 8vh;
+    }
+
     .left-arrow, .right-arrow {
         display: none;
     }
@@ -330,7 +349,11 @@ padding-bottom: 1vh;
     }
 
     .login-btn {
-        padding: 1.5vh;
+        flex: 0 0 auto; 
+        color: white;
+        font-weight: bold;
+        background-color: #143A61;
+        border-radius: 5px;
      }
 
       .identity1 {
@@ -370,4 +393,26 @@ padding-bottom: 1vh;
       .text-content p {
         font-size: 3.5vw;
       }
+}
+
+@media (max-width: 410px) {
+  .nav-item,
+  .login-btn {
+    font-size: 0.75rem;
+  }
+
+  .row img {
+    width: 5rem;
+    height: 5rem;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+
+  .text-content h3 {
+    font-size: 1.1rem;
+  }
+
+  .text-content p {
+    font-size: 0.7rem;
+  }
 }
