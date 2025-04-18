@@ -93,11 +93,11 @@ nav::-webkit-scrollbar {
 main {
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 9vh - 5vh); /* 100vh minus header and nav */
-    scroll-snap-type: y mandatory;
-    overflow-y: auto;
-    margin-top: calc(9vh + 5vh); 
-    
+    overflow: hidden; 
+    margin-top: calc(9vh + 4vh + env(safe-area-inset-top, 0px));
+    background: rgb(199, 196, 196);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 .section {
@@ -105,12 +105,11 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    width: 100vw;
-    height: calc(100vh - 9vh - 5vh); /* Adjust dynamically */  
+    width: 100vw; 
     flex-shrink: 0;
     scroll-snap-align: start;
     scroll-snap-stop: always;
-    background: rgb(199, 196, 196);
+    background: rgb(228, 226, 226);
     position: relative;
     overflow: hidden;
 }
@@ -119,11 +118,13 @@ main {
 .content {
     display: flex;
     overflow-x: auto;
+    overflow-y: auto;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch; /* For iOS */
     width: 100vw;
     height: 100%;
+    background: rgb(228, 226, 226);
 }
 
 /* Each .inner is now a horizontal slide */
@@ -135,6 +136,15 @@ main {
     max-width: 50vw;
     padding-left: 3vw;
     padding-right: 3vw;
+}
+
+/* Safe and accurate full height layout */
+main,
+.section {
+  /* Fallback for browsers that don’t support svh */
+  height: calc(100vh - 9vh - 5vh);
+  /* Override with svh if supported */
+  height: calc(100svh - 9vh - 5vh);
 }
 
 
@@ -185,6 +195,7 @@ main {
     flex-wrap: wrap;  /* Allow images to wrap to next line */
     gap: 2vw;         /* Space between images */
     justify-content: space-between; /* Optional for clean edges */
+    overflow: auto;
   }
   
   .mobile-image-grid img {
@@ -328,14 +339,6 @@ padding-bottom: 1vh;
   }
 
   @media (max-width: 768px) {
-    .content {       
-    margin-top: 6vh;
-    height: 80vh;
-    }
-
-    main {
-    margin-top: 8vh;
-    }
 
     .left-arrow, .right-arrow {
         display: none;
@@ -415,4 +418,13 @@ padding-bottom: 1vh;
   .text-content p {
     font-size: 0.7rem;
   }
+}
+
+body.mobile-chrome main {
+  margin-top: 19.9vh !important; /* or whatever value works for Chrome on mobile */
+}
+
+body.mobile-chrome .section,
+body.mobile-chrome .content {
+  height: calc(100vh - 14vh); /* override to account for Chrome address bar issues */
 }

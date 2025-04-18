@@ -106,3 +106,13 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const ua = navigator.userAgent;
+    const isChrome = /Chrome/i.test(ua) && !/Edg|OPR|Brave/i.test(ua); // Avoid other Chromium browsers
+    const isMobileScreen = window.innerWidth <= 768;
+
+    if (isChrome && isMobileScreen) {
+      document.body.classList.add("mobile-chrome");
+    }
+  });
