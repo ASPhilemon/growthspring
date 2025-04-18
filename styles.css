@@ -428,3 +428,7 @@ body.mobile-chrome .section,
 body.mobile-chrome .content {
   height: calc(100vh - 14vh); /* override to account for Chrome address bar issues */
 }
+
+body.mobile-chrome .controls {
+  bottom: 10vh;  /* or 10vh if you prefer more lift */
+}
