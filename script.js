@@ -116,3 +116,4 @@ document.addEventListener("DOMContentLoaded", () => {
       document.body.classList.add("mobile-chrome");
     }
   });
+  

@@ -30,6 +30,7 @@ header {
     top: 0;
     z-index: 15;
     height: 8vh; /* Converted from 60px */
+    overflow-y: hidden;
 }
 
 .logo-container {
@@ -61,7 +62,7 @@ nav {
     top: 8vh; /* Below header */
     width: 100vw;
     z-index: 15;
-    font-size: 2vh;
+    font-size: clamp(14px, 2vw + 1vh, 20px);
     overflow-x: auto;
     white-space: nowrap;
     gap: 1rem; /* spacing between nav items */
@@ -72,6 +73,7 @@ nav ul {
     list-style: none;
     display: flex;
     gap: 2vw;
+    justify-content: space-between;
 }
 
 nav::-webkit-scrollbar {
@@ -96,8 +98,6 @@ main {
     overflow: hidden; 
     margin-top: calc(9vh + 4vh + env(safe-area-inset-top, 0px));
     background: rgb(199, 196, 196);
-    padding-top: env(safe-area-inset-top, 0px);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 .section {
@@ -131,7 +131,7 @@ main {
 .inner {
     flex: 0 0 100vw;
     scroll-snap-align: start;
-    font-size: 1.2rem;
+    font-size: clamp(14px, 2vw + 1.2vh, 20px);;
     background: rgb(228, 226, 226);
     max-width: 50vw;
     padding-left: 3vw;
@@ -204,9 +204,6 @@ main,
     object-fit: cover;
     height: 37vh;
   }
-
-
-
 
  .pic-headings {
 padding-bottom: 1vh;
@@ -284,7 +281,7 @@ padding-bottom: 1vh;
   }
 
   .activities, li {
-    font-size: 18px;
+    font-size: clamp(14px, 2vw + 1.2vh, 20px);
   }
   
   .identity1 {
@@ -334,7 +331,7 @@ padding-bottom: 1vh;
   }
 
   .regulations li {
-    font-size: 17px;
+    font-size: clamp(14px, 2vw + 1vh, 20px);
     padding-bottom: 1px;
   }
 
@@ -399,7 +396,6 @@ padding-bottom: 1vh;
 }
 
 @media (max-width: 410px) {
-  .nav-item,
   .login-btn {
     font-size: 0.75rem;
   }
