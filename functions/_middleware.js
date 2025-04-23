@@ -1,14 +1,17 @@
 
 export async function onRequest(context) {
   const { request, next } = context;
-  const url = new URL(request.url);
+  if (isLoggedIn(request)) return Response.redirect("https://dash.growthspringers.com"); else return next()
+}
 
-  const cookieHeader = request.headers.get('Cookie');
+function parseJWTCookie(cookieHeader){
   const cookies = new Map(
     cookieHeader?.split(';').map(c => c.trim().split('=')) || []
   );
-  const jwtToken = cookies.get('jwt');
+  return cookies.get('jwt');
+}
 
-  if (jwtToken) return Response.redirect("https://dash.growthspringers.com"); else return next()
-
+function isLoggedIn(request){
+  const cookieHeader = request.headers.get('Cookie');
+  const JWTCookie = parseJWTCookie(cookieHeader)
 }
