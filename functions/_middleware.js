@@ -9,6 +9,6 @@ export async function onRequest(context) {
   );
   const jwtToken = cookies.get('jwt');
 
-  if (jwtToken) return Response.redirect("https://dash.growthspringers.com"); else next()
+  if (jwtToken) return Response.redirect("https://dash.growthspringers.com"); else return next()
 
 }
