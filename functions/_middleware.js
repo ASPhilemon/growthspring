@@ -14,4 +14,5 @@ function parseJWTCookie(cookieHeader){
 function isLoggedIn(request){
   const cookieHeader = request.headers.get('Cookie');
   const JWTCookie = parseJWTCookie(cookieHeader)
+  return JWTCookie != undefined
 }
