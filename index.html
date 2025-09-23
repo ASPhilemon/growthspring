@@ -1,310 +1,710 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GrowthSpring Club</title>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GrowthSpring Club — Premium Story (Fixed Nav)</title>
+<meta name="description" content="GrowthSpring Club — collective saving, investment, and member services." />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  /* THEME VARIABLES
+     Light is default. Dark overrides via [data-theme="dark"] */
+  :root{
+    --gold:#D4AF37;           /* Primary (prominent) */
+    --navy:#143A61;           /* Secondary accent */
+
+    /* Light theme (Option 1 base) */
+    --bg:#ffffff;
+    --bg-soft:#faf8f0;
+    --card:#ffffff;
+    --ink:#0F1720;
+    --muted:#64748B;
+    --line:rgba(20,58,97,.15);
+    --chip-bg:#fff;
+    --chip-fg:var(--navy);
+    --header-bg:color-mix(in oklab, var(--gold) 92%, transparent);
+    --header-line:rgba(0,0,0,.08);
+    --footer-bg:linear-gradient(180deg, #fff 0%, color-mix(in oklab, var(--gold) 10%, #fff) 100%);
+    --stat-accent:var(--navy);
+    --fab-bg:#fff;
+    --fab-fg:var(--navy);
+    --toggle-fg:var(--navy);
+
+    --radius:14px;
+    --maxw:1200px;
+
+    /* Fixed heights (header + chapternav) */
+    --header-h:56px;
+    --chapnav-h:52px;
+    --fixed-stack:calc(var(--header-h) + var(--chapnav-h));
+
+    /* Uniform image height for People section (group + member images) */
+    --people-h:clamp(400px, 36vh, 460px);
+  }
+  /* Dark theme colors copied from the "luxury" option */
+  [data-theme="dark"]{
+    --bg:#0B0E14;
+    --bg-soft:#10141D;
+    --card:#10141D;
+    --ink:#E6E6E6;
+    --muted:#98A2B3;
+    --line:rgba(212,175,55,.18);
+    --chip-bg:#0B0E14;
+    --chip-fg:var(--ink);
+    --header-bg:linear-gradient(180deg, rgba(0,0,0), rgba(0,0,0,.15));
+    --header-line:rgba(255,255,255,.06);
+    --footer-bg:linear-gradient(180deg, rgba(212,175,55,.08), rgba(11,14,20,1));
+    --stat-accent:#ffffff;
+    --fab-bg:rgba(0,0,0,.55);
+    --fab-fg:#ffffff;
+    --toggle-fg:#ffffff;
+  }
+/* --- Dark mode tweaks --- */
+[data-theme="dark"] .site-header{
+  color: var(--gold); /* brand + top-nav text becomes gold */
+}
+
+/* Primary CTA ("Log in"): gold bg + navy text in dark mode */
+[data-theme="dark"] .site-header .cta{
+  background: var(--gold);
+  color: var(--navy);
+  border-color: var(--gold);
+}
+
+/* Secondary CTA ("Join"): keep transparent, but text/border gold for consistency */
+[data-theme="dark"] .site-header .cta.secondary{
+  background: transparent;
+  color: var(--gold);
+  border-color: var(--gold);
+}
+
+[data-theme="dark"] .kicker{ color: var(--gold); }
+[data-theme="dark"]{
+  --stat-accent: var(--gold);
+}
+
+  /* Reset-ish */
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    line-height:1.6;
+    text-rendering:optimizeLegibility;
+    /* Push content below fixed bars */
+    padding-top:var(--fixed-stack);
+  }
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  :focus-visible{outline:3px solid var(--navy);outline-offset:2px}
+
+  .progress{ display:none !important; }
+
+  /* Fixed header */
+  .site-header{
+    position:fixed;top:0;left:0;right:0;z-index:9999;
+    height:var(--header-h);
+    display:flex;align-items:center;
+    backdrop-filter:saturate(1.2) blur(6px);
+    background:var(--header-bg);
+    color:var(--ink);
+    border-bottom:1px solid var(--header-line);
+  }
+  .header-inner{
+    max-width:var(--maxw);margin:0 auto;
+    display:flex;align-items:center;justify-content:space-between;
+    gap:16px;padding:0 20px;width:100%;
+  }
+  .brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.2px}
+  .brand svg{height:28px;width:28px;color:var(--gold)}
+  .brand span{font-family:Quicksand, Inter, sans-serif;font-weight:700;font-size:larger}
+
+  .cta{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:10px 14px;border-radius:999px;border:1px solid var(--line);
+    background:var(--ink);color:#fff;font-weight:600;
+  }
+  .cta.secondary{background:transparent;color:var(--ink)}
+  .cta:hover{filter:brightness(0.98)}
+  .cta:active{transform:translateY(1px)}
+
+  /* Fixed chapter nav (continued scroll UI) */
+  .chapternav{
+    position:fixed;top:var(--header-h);left:0;right:0;z-index:9998;
+    height:var(--chapnav-h);
+    background:var(--card);
+    border-bottom:1px solid var(--line);
+    display:flex;align-items:center;
+  }
+  .chapternav-inner{
+    max-width:var(--maxw);margin:0 auto;width:100%;
+    display:flex;align-items:center;gap:8px;overflow:auto;
+    padding:8px 20px;
+    scrollbar-width:none;
+  }
+  .chapternav-inner::-webkit-scrollbar{display:none}
+  .chip{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:8px 12px;border-radius:999px;border:1px solid var(--line);
+    color:var(--chip-fg); background:var(--chip-bg); white-space:nowrap;
+    font-weight:600;font-size:14px
+  }
+  .chip[data-current="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .chip sup{font-size:11px;font-weight:700;opacity:.7;letter-spacing:.3px}
+
+  /* Sections */
+  section{
+    scroll-margin-top:calc(var(--fixed-stack) + 16px);
+    padding:48px 20px;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto}
+  .kicker{
+    font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--navy);font-size:12px;margin-bottom:10px; margin-left:4vw
+  }
+  .h1{
+    font-family:Quicksand, Inter, sans-serif;
+    font-size:clamp(28px,5vw,52px); line-height:1.1; margin:0 0 14px 0;
+  }
+  .lede{
+    font-size:clamp(16px,2.2vw,20px); color:var(--muted); max-width:75ch;
+    margin:0 0 20px 0
+  }
+
+  /* Plates / cards */
+  .plate{
+    background:var(--bg-soft);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:24px;
+  }
+  .grid{display:grid;gap:18px}
+  @media (min-width:820px){
+    .grid.cols-2{grid-template-columns:repeat(2,1fr)}
+    .grid.cols-3{grid-template-columns:repeat(3,1fr)}
+    .grid.cols-4{grid-template-columns:repeat(4,1fr)}
+  }
+
+  /* Stats cards (Chapter 1 right column) */
+  .stats{display:grid;gap:12px}
+  .stat-card{
+    background:var(--card);border:1px solid var(--line);
+    border-radius:12px;padding:16px 18px;
+  }
+  .stat-k{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:0 0 6px}
+  .stat-v{font-weight:800;font-size:clamp(22px,4vw,32px);color:var(--stat-accent);line-height:1.1}
+
+  /* People & images */
+  .img-card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;position:relative;
+  }
+  /* Uniform height for ALL People images (group + member) */
+  .img-card.same-h{height:var(--people-h)}
+  .img-card img{width:100%;height:100%;object-fit:cover;display:block}
+
+  .img-caption{padding:10px 12px;font-size:14px;color:var(--muted);border-top:1px solid var(--line)}
+
+  /* Team rows */
+  .team-row{
+    display:grid;gap:14px; grid-template-columns:96px 1fr; align-items:center;
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:12px;
+  }
+  .team-row img{width:96px;height:96px;object-fit:cover;border-radius:10px}
+  .small{font-size:14px;color:var(--muted)}
+
+  /* Footer */
+  footer{
+    padding:56px 20px;border-top:1px solid var(--line);
+    background:var(--footer-bg);
+  }
+  .footer-inner{max-width:var(--maxw);margin:0 auto;display:grid;gap:20px}
+
+  /* On-view reveal */
+  .reveal{opacity:0; transform:translateY(12px); transition:opacity .5s ease, transform .5s ease}
+  .reveal.in{opacity:1; transform:none}
+
+  /* Back to top */
+  .fab{
+    position:fixed;right:16px;bottom:16px;z-index:9998;
+    border:1px solid var(--line);
+    background:var(--fab-bg);border-radius:999px;padding:10px 12px;font-weight:700;
+    color:var(--fab-fg);
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    display:none;
+  }
+  .fab.show{display:inline-flex}
+
+  /* THEME TOGGLE (bottom-left, unobtrusive) */
+  .theme-toggle{
+    position:fixed;left:16px;bottom:16px;z-index:9998;
+    width:44px;height:44px;border-radius:999px;
+    display:inline-flex;align-items:center;justify-content:center;
+    background:var(--card);border:1px solid var(--line);
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    color:var(--toggle-fg); /* icon color */
+    cursor:pointer;
+  }
+  .theme-toggle:hover{filter:brightness(0.98)}
+  .theme-toggle svg{width:22px;height:22px;display:block}
+
+
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion:reduce){
+    .reveal{transition:none}
+    html{scroll-behavior:auto}
+  }
+
+  /* Print */
+  @media print{
+    .progress,.site-header,.chapternav,.fab,.theme-toggle{display:none !important}
+    section{padding:24px 0}
+    a[href]::after{content:" <" attr(href) ">"; font-size:12px;color:#555}
+  }
+
+/* 1) Align image edges with titles: kill default <figure> margins */
+    figure { margin: 0; }
+
+/* 2) MOBILE: widen images but keep edges aligned with headings (same section padding) */
+@media (max-width: 819.98px){
+  /* Keep the same left/right padding as other sections so titles & images share the same edge */
+  #people { padding-left: 20px; padding-right: 20px; }
+
+  /* Member portraits: 2-up with tighter gap so tiles aren’t squished */
+  .members-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important; /* was visually large; reduce to widen each tile */
+  }
+  .kicker{
+    margin-left:1vw
+  }
+  /* Make the uniform tile height a bit shorter on small screens to avoid the "tall + narrow" feel */
+  :root { --people-h: clamp(260px, 48vw, 260px); }
+}
+
+/* 3) (Optional) Very small phones: tighten a bit more */
+@media (max-width: 380px){
+  .members-grid { gap: 8px !important; }
+  :root { --people-h: clamp(240px, 52vw, 220px); }
+}
+
+
+</style>
 </head>
 <body>
-    <header>
-        <div class="logo-container">
-            <svg baseProfile="tiny"  version="1.2"  xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs /><path d="M 205,14 L 204,15 L 203,15 L 203,16 L 202,17 L 202,19 L 203,20 L 203,21 L 204,22 L 204,23 L 203,24 L 203,27 L 202,28 L 202,31 L 204,33 L 208,33 L 209,32 L 211,32 L 213,30 L 213,27 L 212,26 L 205,26 L 204,25 L 204,24 L 206,22 L 210,22 L 211,21 L 211,19 L 212,18 L 211,17 L 213,15 L 214,15 L 210,15 L 209,14 Z" fill="currentColor" /><path d="M 187,14 L 186,15 L 187,15 L 188,16 L 188,25 L 186,27 L 190,27 L 190,26 L 189,25 L 189,17 L 191,15 L 194,15 L 196,17 L 196,25 L 195,26 L 195,27 L 199,27 L 199,26 L 198,25 L 198,20 L 197,19 L 197,15 L 196,15 L 195,14 L 192,14 L 190,16 L 189,15 L 189,14 Z" fill="currentColor" /><path d="M 178,14 L 178,15 L 179,15 L 180,16 L 180,25 L 178,27 L 182,27 L 183,26 L 182,26 L 181,25 L 181,14 Z" fill="currentColor" /><path d="M 167,14 L 167,15 L 168,16 L 168,25 L 167,26 L 167,27 L 171,27 L 171,26 L 170,25 L 170,17 L 172,15 L 173,15 L 175,17 L 175,14 L 173,14 L 172,15 L 170,15 L 169,14 Z" fill="currentColor" /><path d="M 152,14 L 151,15 L 153,17 L 153,31 L 152,32 L 151,32 L 156,32 L 155,32 L 154,31 L 154,27 L 155,26 L 156,26 L 157,27 L 159,27 L 160,26 L 161,26 L 162,25 L 162,24 L 163,23 L 163,17 L 162,16 L 162,15 L 161,15 L 160,14 L 157,14 L 156,15 L 155,15 L 154,14 Z" fill="currentColor" /><path d="M 90,14 L 90,15 L 91,16 L 91,17 L 92,18 L 92,20 L 93,21 L 93,22 L 94,23 L 94,25 L 95,26 L 96,26 L 96,24 L 97,23 L 97,21 L 98,20 L 98,19 L 99,18 L 100,19 L 100,20 L 101,21 L 101,22 L 102,23 L 102,25 L 103,26 L 104,26 L 104,24 L 105,23 L 105,20 L 106,19 L 106,17 L 107,16 L 107,14 L 106,14 L 105,15 L 106,16 L 106,18 L 105,19 L 105,22 L 104,23 L 103,23 L 102,22 L 102,20 L 101,19 L 101,17 L 100,16 L 100,15 L 99,15 L 99,16 L 98,17 L 98,19 L 97,20 L 97,22 L 96,23 L 94,21 L 94,20 L 93,19 L 93,17 L 92,16 L 93,15 L 92,14 Z" fill="currentColor" /><path d="M 78,14 L 75,17 L 75,24 L 77,26 L 79,26 L 80,27 L 82,27 L 83,26 L 84,26 L 86,24 L 86,23 L 87,22 L 87,19 L 86,18 L 86,17 L 83,14 Z" fill="currentColor" /><path d="M 64,14 L 64,15 L 65,16 L 65,25 L 64,26 L 64,27 L 68,27 L 69,26 L 68,26 L 67,25 L 67,17 L 68,16 L 69,16 L 70,15 L 72,17 L 73,17 L 73,15 L 72,14 L 70,14 L 69,15 L 68,15 L 67,14 Z" fill="currentColor" /><path d="M 113,12 L 113,13 L 111,15 L 112,16 L 112,24 L 113,25 L 113,26 L 114,27 L 116,27 L 117,26 L 118,26 L 115,26 L 114,25 L 114,16 L 115,15 L 117,15 L 115,15 L 114,14 L 114,12 Z" fill="currentColor" /><path d="M 180,9 L 179,10 L 180,11 L 181,10 L 181,9 Z" fill="currentColor" /><path d="M 143,9 L 142,10 L 139,10 L 137,12 L 137,15 L 140,18 L 141,18 L 142,19 L 143,19 L 146,22 L 146,24 L 144,26 L 139,26 L 138,25 L 138,23 L 137,23 L 137,26 L 138,26 L 139,27 L 144,27 L 145,26 L 146,26 L 147,25 L 147,20 L 146,19 L 145,19 L 144,18 L 143,18 L 142,17 L 141,17 L 139,15 L 139,12 L 141,10 L 144,10 L 146,12 L 146,13 L 147,13 L 147,12 L 146,11 L 146,10 L 144,10 Z" fill="currentColor" /><path d="M 121,9 L 122,10 L 122,25 L 121,26 L 121,27 L 125,27 L 125,26 L 124,25 L 124,17 L 126,15 L 129,15 L 131,17 L 131,22 L 130,23 L 130,24 L 131,25 L 130,26 L 130,27 L 133,27 L 134,26 L 133,26 L 132,25 L 132,16 L 130,14 L 127,14 L 126,15 L 125,15 L 124,14 L 124,9 Z" fill="currentColor" /><path d="M 53,9 L 52,10 L 49,10 L 46,13 L 46,15 L 45,16 L 45,20 L 46,21 L 46,23 L 49,26 L 51,26 L 52,27 L 56,27 L 57,26 L 59,26 L 59,22 L 60,21 L 60,20 L 56,20 L 57,21 L 57,25 L 56,26 L 51,26 L 48,23 L 48,22 L 47,21 L 47,15 L 48,14 L 48,13 L 50,11 L 51,11 L 52,10 L 57,10 L 58,11 L 58,12 L 59,13 L 59,14 L 59,10 L 57,10 L 56,9 Z" fill="currentColor" /><path d="M 17,2 L 15,4 L 15,5 L 14,6 L 14,12 L 17,15 L 17,22 L 16,23 L 15,23 L 14,22 L 14,21 L 13,21 L 12,20 L 12,16 L 9,13 L 5,13 L 5,17 L 7,19 L 8,19 L 9,20 L 11,20 L 17,26 L 17,28 L 16,29 L 14,29 L 13,28 L 12,28 L 11,27 L 8,27 L 7,28 L 6,28 L 6,30 L 7,31 L 12,31 L 14,29 L 15,29 L 17,31 L 17,36 L 16,37 L 16,39 L 18,39 L 19,38 L 18,37 L 18,28 L 21,25 L 22,25 L 23,24 L 27,24 L 29,22 L 29,21 L 30,20 L 30,18 L 25,18 L 23,20 L 23,21 L 22,22 L 22,23 L 19,26 L 18,25 L 18,15 L 20,13 L 20,12 L 21,11 L 21,7 L 20,6 L 20,5 L 18,3 L 18,2 Z" fill="currentColor" /></svg>
+  <div class="progress" aria-hidden="true"></div>
+
+  <!-- Fixed Header -->
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="#top" aria-label="GrowthSpring Club - Home">
+        <!-- Logo -->
+        <span>GrowthSpring</span>
+      </a>
+      <nav aria-label="Quick">
+        <a class="cta secondary" href="#join">Join</a>
+        <a class="cta" href="https://auth.growthspringers.com">Log in</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Fixed Chapter Nav -->
+  <div class="chapternav" role="navigation" aria-label="Chapters">
+    <div class="chapternav-inner" id="chapters">
+      <a class="chip" href="#who" data-id="who"><sup>01</sup> Who We Are</a>
+      <a class="chip" href="#mission" data-id="mission"><sup>02</sup> Mission & Objectives</a>
+      <a class="chip" href="#regulations" data-id="regulations"><sup>03</sup> Club Regulations</a>
+      <a class="chip" href="#activities" data-id="activities"><sup>04</sup> Current Activities</a>
+      <a class="chip" href="#people" data-id="people"><sup>05</sup> The People</a>
+      <a class="chip" href="#team" data-id="team"><sup>06</sup> Admin Team</a>
+    </div>
+  </div>
+
+  <main id="top">
+    <!-- 01 Who we are (stats now on the right column) -->
+    <section id="who" aria-labelledby="who-title">
+        <div class="kicker">Chapter 01</div>
+      <div class="wrap grid cols-2">
+        <div>
+          <h1 class="h1" id="who-title">A collective that turns small steps into big outcomes</h1>
+          <p class="lede">
+            We’re a group of friends who pool resources to access opportunities that are hard or costly to pursue alone.
+            Founded in 2021, we’ve grown from 4 to 31 members with over 65M in savings—guided by ambition and prudence.
+          </p>
         </div>
-        <a href="https://auth.growthspringers.com/signin" class="login-btn">LOG IN</a>
-    </header>
-    <nav>
-        <ul>
-            <li class="nav-item active" data-section="start">Who We Are</li>
-            <li class="nav-item" data-section="pictures">The People</li>
-            <li class="nav-item" data-section="team">Admin Team</li>
-        </ul>
-    </nav>
-    <main>
-        <section id="start" class="section">
-            <div class="content">
-
-            <div class="inner active identity1" style="margin-left: 2vh;">
-                <h2 style="margin-top: 1vh;">Who we are</h2>
-                <p style="line-height: 1.5">
-                We are a group of friends who understand the power of working together. Alone, our resources might be small, but by pooling our efforts, we can accomplish far more with less. This multiplier effect allows us to access opportunities that would be difficult or costly to pursue individually.
-                </p>
-                <p style="margin-top: 2vh; line-height: 1.5;">
-                Starting in 2021, we have stayed true to our goals, even though we have refined our approaches. Applying wisdom and learning as we grow, being ambitious while avoiding the pitfalls that usually plague investment clubs. From an initial group of 4 individuals, we have been joined by like-minded people and currently number 26 members with over 50M in savings.
-                </p>
+        <div>
+          <div class="stats">
+            <div class="stat-card">
+              <p class="stat-k">Members</p>
+              <div class="stat-v">31</div>
             </div>
-
-            <div class="inner identity2">
-                <h2 style="margin-top: 1vh;">Mission</h2>
-                <p>
-                To improve the socio-economic welfare of members through collaborative efforts in savings and investments, while providing flexible and accessible credit services, ensuring the financial well-being of every member.
-                </p>
-
-                <h2 style="margin-top: 1vh;">Objectives</h2>
-                <ul style="margin-left: 30px; margin-top: 5px;">
-                <li>To encourage the habit of saving and investing among members.</li>
-                <li>To provide members with easy access to credit.</li>
-                <li>To provide financial and material help to members in times of need.</li>
-                <li>To bring members together, fostering a spirit of unity and cooperation for professional networking.</li>
-                <li>To offer guidance and professional advice to members to improve their economic welfare.</li>
-                <li>To invest pooled funds, acquire and sell property and assets as a group.</li>
-                </ul>
+            <div class="stat-card">
+              <p class="stat-k">Total Savings</p>
+              <div class="stat-v">65M+</div>
             </div>
-
-            <div class="inner identity1">
-                <h2 style="margin-top: 1vh;">Club Regulations</h2>
-                <ol style="margin-left: 30px; margin-top: 5px;" class="regulations">
-                <li><strong>SAVE</strong> monthly minimum of 20k. There is no penalty for not saving, but all club benefits are based on the points given for saving. 3 points for every 10k saved.</li>
-
-                <li><strong>DEPOSITS</strong> cannot be withdrawn unless on exiting the club.</li>
-
-                <li><strong>PROFITS</strong> are distributed at the end of the year, and members choose whether to re-invest or withdraw.</li>
-
-                <li><strong>LENDING</strong> rate is 2% per month on remaining balance. Points are used to clear interest on the loan after the 6th month.</li>
-
-                <li><strong>LIMIT</strong> for loans is 1.5X of member savings, minus unpaid loans.</li>
-
-                <li><strong>MAXIMUM</strong> loan duration is 2 years, depending on the size of the loan. Small amounts have to be cleared under a year.</li>
-
-                <li><strong>POINTS</strong> can be sold and shared to other members, except the initial 500 points given to new members.</li>
-
-                <li><strong>NEW</strong> members need guarantors for loans beyond their savings.</li>
-
-                <li><strong>MEETINGS</strong> of the club are twice a year. Members are required to attend at least one, physically or online.</li>
-                </ol>
+            <div class="stat-card">
+              <p class="stat-k">Founded</p>
+              <div class="stat-v">2021</div>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-            <div class="inner activities identity2">
-                <h2 style="margin-top: 1vh;">Current Activities</h2>
-                <div style="margin-left: 1vh;">
-                    <p><strong>Loans:</strong> Members can access quick loans based on their savings. Our priority is speed — funds are available in less than 24 hours whenever a member needs them.</p>
-    
-                    <p><strong>Discounts:</strong> As a group, we leverage our collective buying power to negotiate exclusive discounts for members.</p>
-    
-                    <p><strong>Partnerships:</strong> Are you a business owner? We believe in supporting each other — not just through capital but by buying from and promoting fellow members’ businesses.</p>    
+    <!-- 02 Mission & Objectives -->
+    <section id="mission" aria-labelledby="mission-title">
+        <div class="kicker">Chapter 02</div>
+      <div class="wrap grid cols-2">
+        <div class="plate reveal">
+          <h2 class="h1" id="mission-title">Mission</h2>
+          <p class="lede">
+            Improve members’ socio-economic welfare through collective saving and investing, with flexible, accessible credit—so every member thrives.
+          </p>
+        </div>
+        <div class="plate reveal">
+          <h3 style="margin:0 0 10px 0">Objectives</h3>
+          <ul class="list">
+            <li>Encourage disciplined saving and investing.</li>
+            <li>Provide easy access to credit.</li>
+            <li>Offer support to members in times of need.</li>
+            <li>Foster unity, cooperation, and professional networking.</li>
+            <li>Share guidance to improve members’ economic welfare.</li>
+            <li>Invest pooled funds and manage group assets prudently.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
-                </div>
-                <p style="margin-top: 1vh; margin-left: 1vh;">
-                To check out our app, go to the Log In page and enter the following credentials:<br>
-                Email: <em>example1@gmail.com</em><br>
-                Password: <em>11111111</em>
-                </p>
+    <!-- 03 Club Regulations -->
+    <section id="regulations" aria-labelledby="reg-title">
+        <div class="kicker">Chapter 03</div>
+      <div class="wrap">
+        <h2 class="h1" id="reg-title">Club Regulations</h2>
+        <div class="grid cols-3" style="margin-top:18px">
+          <div class="plate reveal">
+            <h3>Saving & Points</h3>
+            <p>Monthly minimum 20k. No penalties; Points are gained for saving—3 points per 10k saved. Points can be transferred or sold (except the initial 500), or used to pay interest on loans.</p>
+          </div>
+          <div class="plate reveal">
+            <h3>Profits & Withdrawals</h3>
+            <p>Deposits are withdrawn only when exiting the Club. Profits are distributed annually; members choose to re-invest or withdraw.</p>
+          </div>
+          <div class="plate reveal">
+            <h3>Loans</h3>
+            <p>2% per month interest on remaining balance. Loan limit: 2× savings minus unpaid loans. Max duration 2 years (smaller loans under 1 year). After month 6, points clear interest. Guarantors required beyond savings for new members.</p>
+          </div>
+        </div>
+        <div class="plate reveal" style="margin-top:18px">
+          <h3>Meetings</h3>
+          <p>Held twice a year; members attend at least one (in person or online).</p>
+        </div>
+      </div>
+    </section>
 
-                <h2 style="margin-top: 1vh;">How to Join the Club</h2>
-                <ol style="margin-left: 30px;">
-                <li>Get a referral from an existing member.</li>
-                <li>Review our membership terms and conditions.</li>
-                <li>Contact any club admin. You'll receive a response within 24 hours. If accepted, your club account will be created.</li>
-                </ol>
-            </div>
+    <!-- 04 Current Activities (demo card on the right) -->
+    <section id="activities" aria-labelledby="act-title">
+        <div class="kicker">Chapter 04</div>
+      <div class="wrap grid cols-2">
+        <div>
+          <h2 class="h1" id="act-title">Focused on Members</h2>
+          <ul class="list">
+            <li><strong>Loans:</strong> Fast access—funds in &lt; 24 hours based on savings.</li>
+            <li><strong>Discounts:</strong> We negotiate better rates using collective buying power.</li>
+            <li><strong>Partnerships:</strong> We support members’ businesses with capital and demand.</li>
+          </ul>
+        </div>
+        <div>
+          <div id="login" class="plate reveal">
+            <h3 style="margin-top:0">Try the app (demo)</h3>
+            <p><strong>Email:</strong> <em>example1@gmail.com</em><br><strong>Password:</strong> <em>11111111</em></p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-            </div>
-            
-            <div class="controls">
-                <button class="left-arrow">←</button>
-                <div class="dots"></div>
-                <button class="right-arrow">→</button>
-            </div>
-        </section>
-        <section id="pictures" class="section">
-            <div class="content">
-              <div class="inner active desktop-view">
-                  <H3 class="pic-headings">2024 JUNE</H3>
-                  <img loading="lazy" class="lg-pic" src="/2024 PICS/PXL_20240602_155628307.jpg" alt="">                   
-              </div>
-              <div class="inner desktop-view">
-                  <H3 class="pic-headings">2024 DECEMBER</H3>
-                  <img loading="lazy" class="lg-pic" src="/2024 PICS/PXL_20241201_143008708.PORTRAIT.jpg" alt="">                   
-              </div>
-                <div class="inner desktop-view">
-                    <H3 class="pic-headings">2023 JUNE</H3>
-                    <img loading="lazy" class="lg-pic" src="/2023 PICS/IMG-20230604-WA0016~3.jpg" alt="">
-                </div>
-                <div class="inner desktop-view">
-                    <H3 class="pic-headings">2023 DECEMBER</H3>
-                    <img loading="lazy" class="lg-pic" src="/2023 PICS/IMG-20231210-WA0006.jpg" alt="">                   
-                </div>
-                <div class="inner desktop-view">
-                    <H3 class="pic-headings">MEMBERS</H3>
-                    <div class="image-grid">
-                        <img loading="lazy" class="sm-pic" src="/2024 PICS/PXL_20241201_143116356.PORTRAIT.jpg" alt=""> 
-                        <img loading="lazy" class="sm-pic" src="/2024 PICS/PXL_20241201_143134344.PORTRAIT.jpg" alt="">     
-                    </div>                
-                </div>
-                <div class="inner desktop-view">
-                    <H3 class="pic-headings">MEMBERS</H3>
-                    <div class="image-grid">
-                        <img loading="lazy" class="sm-pic" src="/2024 PICS/PXL_20241201_143145903.PORTRAIT.jpg" alt="">  
-                        <img loading="lazy" class="sm-pic" src="/2024 PICS/PXL_20241201_142915883.jpg" alt="">
-                    </div>                
-                </div>
-                <div class="inner desktop-view">
-                    <H3 class="pic-headings">MEMBERS</H3>
-                    <div class="image-grid">
-                        <img loading="lazy" class="sm-pic" src="/2024 PICS/PXL_20241201_121838514.PORTRAIT.jpg" alt=""> 
-                        <img loading="lazy" class="sm-pic" src="/2024 PICS/PXL_20241201_142901404.MP.jpg" alt="">     
-                    </div>
-                </div>
-                <div class="inner desktop-view">
-                    <H3 class="pic-headings">MEMBERS</H3>
-                    <div class="image-grid">
-                        <img loading="lazy" class="sm-pic" src="/2024 PICS/PXL_20241201_142905507.jpg" alt="">  
-                        <img loading="lazy" class="sm-pic" src="/2024 PICS/PXL_20241201_142909649.jpg" alt="">
-                    </div>
-                </div>
-                <div class="inner mobile-view active">
-                    <div>
-                        <H3 class="pic-headings">2024 JUNE</H3>
-                        <img loading="lazy" class="lg-pic" src="/2024 PICS/PXL_20240602_155628307.jpg" alt="">                   
-                    </div>
-                    <div>
-                        <H3 class="pic-headings">2024 DECEMBER</H3>
-                        <img loading="lazy" class="lg-pic" src="/2024 PICS/PXL_20241201_143008708.PORTRAIT.jpg" alt="">                       
-                    </div>
-                </div>                
-                <div class="inner mobile-view">
-                    <div>
-                        <H3 class="pic-headings">2023 JUNE</H3>
-                        <img loading="lazy" class="lg-pic" src="/2023 PICS/IMG-20230604-WA0016~3.jpg" alt="">    
-                    </div>
-                    <div>
-                        <H3 class="pic-headings">2023 DECEMBER</H3>
-                        <img loading="lazy" class="lg-pic" src="/2023 PICS/IMG-20231210-WA0006.jpg" alt="">
-                    </div>                   
-                </div>
-                <div class="inner mobile-view">
-                    <H3 class="pic-headings">MEMBERS</H3>
-                    <div class="mobile-image-grid">
-                        <img loading="lazy" class="sm-pic" src="/2024 PICS/PXL_20241201_143116356.PORTRAIT.jpg" alt=""> 
-                        <img loading="lazy" class="sm-pic" src="/2024 PICS/PXL_20241201_143134344.PORTRAIT.jpg" alt="">     
-                        <img loading="lazy" class="sm-pic" src="/2024 PICS/PXL_20241201_143145903.PORTRAIT.jpg" alt="">  
-                        <img loading="lazy" class="sm-pic" src="/2024 PICS/PXL_20241201_142915883.jpg" alt="">
-                    </div>                
-                </div>
-                <div class="inner mobile-view">
-                    <H3 class="pic-headings">MEMBERS</H3>
-                    <div class="mobile-image-grid">
-                        <img loading="lazy" class="sm-pic" src="/2024 PICS/PXL_20241201_121838514.PORTRAIT.jpg" alt=""> 
-                        <img loading="lazy" class="sm-pic" src="/2024 PICS/PXL_20241201_142901404.MP.jpg" alt="">     
-                        <img loading="lazy" class="sm-pic" src="/2024 PICS/PXL_20241201_142905507.jpg" alt="">  
-                        <img loading="lazy" class="sm-pic" src="/2024 PICS/PXL_20241201_142909649.jpg" alt="">
-                    </div>
-                </div>                
-            </div>
-            
-            </div>
-            <div class="controls">
-                <button class="left-arrow">←</button>
-                <div class="dots"></div>
-                <button class="right-arrow">→</button>
-            </div>
-        </section>
-        <section id="team" class="section">
-            <div class="content">
-                <div class="inner active three-row-grid desktop-view">
-                    <div class="row">
-                        <img loading="lazy" src="/ADMINS/UNQ_7860~2.JPG" alt="">
-                        <div class="text-content">
-                          <h3>Mwebe Blaise, Chairman</h3>
-                          <p>Responsible for the Club direction and programs. He is a Civil Engineer by profession, with a passion for business and innovation.</p>
-                        </div>
-                      </div>
-                    
-                      <div class="row">
-                        <img loading="lazy" src="/ADMINS/IMG-20220731-WA0039~4.jpg" alt="">
-                        <div class="text-content">
-                          <h3>Omodo Joshua, Secretary</h3>
-                          <p>Responsible for record keeping and internal Audit. He is a Civil Engineer with a passion for Christian Ministry.</p>
-                        </div>
-                      </div>
-                    
-                      <div class="row">
-                        <img loading="lazy" src="/ADMINS/PXL_20241201_121918563.PORTRAIT~2.jpg" alt="">
-                        <div class="text-content">
-                          <h3>Kawuma Andrew, Treasurer</h3>
-                          <p>Responsible for handling all financial transactions of the Club and book-keeping. He is a Civil Engineer with interests in Finance and Business.</p>
-                        </div>
-                      </div>
-                </div>
-                <div class="inner three-row-grid desktop-view">
-                     <div class="row">
-                        <img loading="lazy" src="/ADMINS/PXL_20241201_143134344.PORTRAIT~2.jpg" alt="">
-                        <div class="text-content">
-                          <h3>Ariko Stephen, IT</h3>
-                          <p>Responsible for developing and maintaining the Club App. He is a Civil Engineer with interests in Tech and Software Programming.</p>
-                        </div>
-                      </div>
-                    
-                      <div class="row">
-                        <img loading="lazy" src="/ADMINS/IMG-20250328-WA0003~2.jpg" alt="">
-                        <div class="text-content">
-                          <h3>Atim Dyna Loy, PR</h3>
-                          <p>Responsible for Club communications and events management. She is a Conservation Biologist, a strong mobiliser and team player.</p>
-                        </div>
-                      </div>
-                    
-                      <div class="row">
-                        <img loading="lazy" src="/IMG-20250409-WA0012~2.jpg" alt="">
-                        <div class="text-content">
-                          <h3>Rwothungeo Rodgers, Media</h3>
-                          <p>Responsible for Club Branding. He is a Civil Engineer with a mind for Design and Photography.</p>
-                        </div>
-                      </div>
-                </div>
+    <!-- 05 The People -->
+    <section id="people" aria-labelledby="people-title">
+        <div class="kicker">Chapter 05</div>
+      <div class="wrap">
+        <h2 class="h1" id="people-title">The People</h2>
+        <p class="lede">Moments and faces that shape our culture.</p>
 
-                <div class="inner mobile-view">
-                    <div class="row">
-                        <img loading="lazy" src="/ADMINS/UNQ_7860~2.JPG" alt="">
-                        <div class="text-content">
-                          <h3 style="margin-top: 1.5vh;">Mwebe Blaise, Chairman</h3>
-                          <p>Responsible for the Club direction and programs. He is a Civil Engineer by profession, with a passion for business and innovation.</p>
-                        </div>
-                      </div>
-                    
-                      <div class="row">
-                        <img loading="lazy" src="/ADMINS/IMG-20220731-WA0039~4.jpg" alt="">
-                        <div class="text-content">
-                          <h3>Omodo Joshua, Secretary</h3>
-                          <p>Responsible for record keeping and internal Audit. He is a Civil Engineer with a passion for Christian Ministry.</p>
-                        </div>
-                      </div>
-                    
-                      <div class="row">
-                        <img loading="lazy" src="/ADMINS/PXL_20241201_121918563.PORTRAIT~2.jpg" alt="">
-                        <div class="text-content">
-                          <h3>Kawuma Andrew, Treasurer</h3>
-                          <p>Responsible for handling all financial transactions of the Club and book-keeping. He is a Civil Engineer with interests in Finance and Business.</p>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <img loading="lazy" src="/ADMINS/PXL_20241201_143134344.PORTRAIT~2.jpg" alt="">
-                        <div class="text-content">
-                          <h3>Ariko Stephen, IT</h3>
-                          <p>Responsible for developing and maintaining the Club App. He is a Civil Engineer with interests in Tech and Software Programming.</p>
-                        </div>
-                      </div>
-                    
-                      <div class="row">
-                        <img loading="lazy" src="/ADMINS/IMG-20250328-WA0003~2.jpg" alt="">
-                        <div class="text-content">
-                          <h3>Atim Dyna Loy, PR</h3>
-                          <p>Responsible for Club communications and events management. She is a Conservation Biologist, a strong mobiliser and team player.</p>
-                        </div>
-                      </div>
-                    
-                      <div class="row">
-                        <img loading="lazy" src="/IMG-20250409-WA0012~2.jpg" alt="">
-                        <div class="text-content">
-                          <h3>Rwothungeo Rodgers, Media</h3>
-                          <p>Responsible for Club Branding. He is a Civil Engineer with a mind for Design and Photography.</p>
-                        </div>
-                      </div>
-                </div>
+        <!-- Large dated photos: full width on mobile, two-up on desktop -->
+        <div class="grid cols-2" style="margin-top:18px">
+            <figure class="img-card reveal same-h">
+              <img src="./2025 PICS/PXL_20250601_122340145~2.jpg" alt="June 2025 gathering">
+            </figure>
+            <figure class="img-card reveal same-h">
+              <img src="./2025 PICS/PXL_20250601_133851089.jpg" alt="June 2025 portrait">
+            </figure>
+          </div>
+          <div class="grid cols-2" style="margin-top:18px">
+          <figure class="img-card reveal same-h">
+            <img src="./2024 PICS/PXL_20240602_155628307.jpg" alt="June 2024 gathering">
+          </figure>
+          <figure class="img-card reveal same-h">
+            <img src="./2024 PICS/PXL_20241201_143008708.PORTRAIT.jpg" alt="December 2024 portrait">
+          </figure>
+        </div>
+        <!-- Member grids: 4-up desktop, 2-up mobile (class hooks added) -->
+        <div class="grid cols-4 members-grid" style="margin-top:24px">
+          <figure class="img-card reveal same-h">
+            <img src="./2024 PICS/PXL_20241201_143116356.PORTRAIT.jpg" alt="Member portrait">
+          </figure>
+          <figure class="img-card reveal same-h">
+            <img src="./2024 PICS/PXL_20241201_143134344.PORTRAIT.jpg" alt="Member portrait">
+          </figure>
+          <figure class="img-card reveal same-h">
+            <img src="./2024 PICS/PXL_20241201_143145903.PORTRAIT.jpg" alt="Member portrait">
+          </figure>
+          <figure class="img-card reveal same-h">
+            <img src="./2024 PICS/PXL_20241201_142915883.jpg" alt="Member photo">
+          </figure>
+        </div>
+
+        <div class="grid cols-4 members-grid" style="margin-top:18px">
+          <figure class="img-card reveal same-h">
+            <img src="./2024 PICS/PXL_20241201_121838514.PORTRAIT.jpg" alt="Member portrait">
+          </figure>
+          <figure class="img-card reveal same-h">
+            <img src="./2024 PICS/PXL_20241201_142901404.MP.jpg" alt="Member photo">
+          </figure>
+          <figure class="img-card reveal same-h">
+            <img src="./2024 PICS/PXL_20241201_142905507.jpg" alt="Member photo">
+          </figure>
+          <figure class="img-card reveal same-h">
+            <img src="./2024 PICS/PXL_20241201_142909649.jpg" alt="Member photo">
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 Admin Team -->
+    <section id="team" aria-labelledby="team-title">
+        <div class="kicker">Chapter 06</div>
+      <div class="wrap">
+        <h2 class="h1" id="team-title">Admin Team</h2>
+
+        <div class="grid cols-3" style="margin-top:12px">
+          <div class="team-row reveal">
+            <img src="./ADMINS/UNQ_7860~2.JPG" alt="Mwebe Blaise">
+            <div>
+              <h4 style="margin:0 0 6px 0">Mwebe Blaise <span class="small">— Chairman</span></h4>
+              <p style="margin:0">Leads club direction and programs. Passionate for business and innovation.</p>
             </div>
-        </section>
-    </main>
-    
-    <script src="script.js"></script>
-      
+          </div>
+
+          <div class="team-row reveal">
+            <img src="./ADMINS/IMG-20220731-WA0039~4.jpg" alt="Omodo Joshua">
+            <div>
+              <h4 style="margin:0 0 6px 0">Omodo Joshua <span class="small">— Secretary</span></h4>
+              <p style="margin:0">Records and internal audit. Civil Engineer with a passion for Christian ministry.</p>
+            </div>
+          </div>
+
+          <div class="team-row reveal">
+            <img src="./ADMINS/PXL_20241201_121918563.PORTRAIT~2.jpg" alt="Kawuma Andrew">
+            <div>
+              <h4 style="margin:0 0 6px 0">Kawuma Andrew <span class="small">— Treasurer</span></h4>
+              <p style="margin:0">Manages all Club financial transactions. Interests in finance and business.</p>
+            </div>
+          </div>
+
+          <div class="team-row reveal">
+            <img src="./ADMINS/PXL_20241201_143134344.PORTRAIT~2.jpg" alt="Ariko Stephen">
+            <div>
+              <h4 style="margin:0 0 6px 0">Ariko Stephen <span class="small">— IT</span></h4>
+              <p style="margin:0">Builds and maintains the app and records systems. Interests in software programming.</p>
+            </div>
+          </div>
+
+          <div class="team-row reveal">
+            <img src="./ADMINS/IMG-20250328-WA0003~2.jpg" alt="Atim Dyna Loy">
+            <div>
+              <h4 style="margin:0 0 6px 0">Atim Dyna <span class="small">— Public Relations</span></h4>
+              <p style="margin:0">Communications and events. Conservation Biologist; strong mobiliser and team player.</p>
+            </div>
+          </div>
+
+          <div class="team-row reveal">
+            <img src="./IMG-20250409-WA0012~2.jpg" alt="Rwothungeo Rodgers">
+            <div>
+              <h4 style="margin:0 0 6px 0">Rwothungeo Rodgers <span class="small">— Media</span></h4>
+              <p style="margin:0">Branding and visual storytelling. Civil Engineer; design and photography.</p>
+            </div>
+          </div>
+        </div>
+
+        <div id="join" class="plate reveal" style="margin-top:24px">
+          <h3 style="margin-top:0">How to Join</h3>
+          <ol class="olist">
+            <li>Get a referral from an existing member.</li>
+            <li>Review membership terms and conditions.</li>
+            <li>Contact an admin—if accepted, your club account will be created (we reply within 24 hours).</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer role="contentinfo">
+    <div class="footer-inner">
+      <div>
+        <strong>GrowthSpring Club</strong>
+        <p class="small">There when you need us.</p>
+      </div>
+      <div class="small">© <span id="year"></span> GrowthSpring Club. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <!-- Back to top -->
+  <button class="fab" id="toTop" aria-label="Back to top">↑</button>
+
+  <!-- Theme toggle -->
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme" title="Toggle theme">
+    <!-- Icon uses currentColor; white in dark, navy in light -->
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <!-- Combined sun/moon glyph -->
+      <path d="M12 3v2M12 19v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M3 12h2M19 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+      <path d="M12 8a4 4 0 1 0 4 4 4 4 0 0 0-4-4Z"/>
+    </svg>
+  </button>
+
+<script>
+  // Smooth scrolling unless reduced motion
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.style.scrollBehavior = 'smooth';
+  }
+
+  // Theme handling
+  (function themeInit(){
+    const root = document.documentElement;
+    const stored = localStorage.getItem('gsc-theme');
+    if (stored) {
+      root.setAttribute('data-theme', stored);
+    } else {
+      // respect user OS preference
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      root.setAttribute('data-theme', prefersDark ? 'dark' : '');
+    }
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const cur = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', cur === 'light' ? '' : 'dark'); // empty = light
+      localStorage.setItem('gsc-theme', cur === 'light' ? '' : 'dark');
+    });
+  })();
+
+  // Progress bar
+// Progress bar (guarded)
+const progress = document.querySelector('.progress');
+if (progress) {
+  const updateProgress = () => {
+    const h = document.documentElement;
+    const scrollTop = h.scrollTop || document.body.scrollTop;
+    const scrollHeight = h.scrollHeight - h.clientHeight;
+    const p = scrollHeight > 0 ? scrollTop / scrollHeight : 0;
+    progress.style.transform = `scaleX(${p})`;
+  };
+  document.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+}
+
+
+  // Scroll-spy for chapters + hash updates (and keep active chip visible)
+  const chips = Array.from(document.querySelectorAll('.chip'));
+  const sections = chips.map(c => document.getElementById(c.getAttribute('href').slice(1)));
+  const chipsWrap = document.getElementById('chapters');
+
+  const setCurrent = (id) => {
+    chips.forEach(chip => chip.dataset.current = (chip.dataset.id === id));
+  };
+
+  // Ensure active chip is visible in the horizontal scroller
+  const ensureActiveChipVisible = (id) => {
+    const active = chips.find(ch => ch.dataset.id === id);
+    if (!active) return;
+    const wrapRect = chipsWrap.getBoundingClientRect();
+    const chipRect = active.getBoundingClientRect();
+    const isFullyVisible = chipRect.left >= wrapRect.left && chipRect.right <= wrapRect.right;
+    if (!isFullyVisible) {
+      active.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+  };
+
+  let hashUpdateId = null;
+  const scheduleHashUpdate = (id) => {
+    if (hashUpdateId) cancelAnimationFrame(hashUpdateId);
+    hashUpdateId = requestAnimationFrame(() => {
+      if (history.replaceState) {
+        history.replaceState(null, '', '#' + id);
+      } else {
+        location.hash = id;
+      }
+    });
+  };
+
+  const io = new IntersectionObserver((entries) => {
+    const visible = entries
+      .filter(e => e.isIntersecting)
+      .sort((a,b) => b.intersectionRatio - a.intersectionRatio);
+    if (visible[0]) {
+      const id = visible[0].target.id;
+      setCurrent(id);
+      scheduleHashUpdate(id);
+      syncAria();
+      ensureActiveChipVisible(id);
+    }
+  }, {
+    root: null,
+    rootMargin: '-40% 0px -50% 0px',
+    threshold: [0, .25, .5, .75, 1]
+  });
+  sections.forEach(s => io.observe(s));
+
+  // Reveal-on-view
+  const rev = document.querySelectorAll('.reveal');
+  const rio = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold:.2 });
+  rev.forEach(el => rio.observe(el));
+
+  // Back to top FAB
+  const fab = document.getElementById('toTop');
+  const toggleFab = () => { fab.classList.toggle('show', window.scrollY > 900); };
+  document.addEventListener('scroll', toggleFab, { passive: true });
+  fab.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  // Footer year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // ARIA sync
+  function syncAria(){
+    chips.forEach(chip => {
+      const isCurrent = chip.dataset.current === 'true';
+      chip.setAttribute('aria-current', isCurrent ? 'page' : 'false');
+      chip.tabIndex = 0;
+    });
+  }
+  syncAria();
+
+  // Keyboard chapter navigation (Alt+Up/Down)
+  document.addEventListener('keydown', (e) => {
+    if (!e.altKey) return;
+    if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+    const idx = chips.findIndex(c => c.dataset.current === 'true');
+    if (idx < 0) return;
+    e.preventDefault();
+    const next = e.key === 'ArrowDown' ? Math.min(idx+1, chips.length-1) : Math.max(idx-1, 0);
+    chips[next].focus(); chips[next].click();
+    ensureActiveChipVisible(chips[next].dataset.id);
+  });
+
+  // Ensure clicking a chip updates aria state + visibility immediately
+  chips.forEach(chip => chip.addEventListener('click', () => {
+    setCurrent(chip.dataset.id); syncAria(); ensureActiveChipVisible(chip.dataset.id);
+  }));
+</script>
 </body>
 </html>
