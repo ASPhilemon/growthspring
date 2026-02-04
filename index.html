@@ -1,10 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en" data-theme="">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>GrowthSpring Club — Premium Story (Fixed Nav)</title>
-<meta name="description" content="GrowthSpring Club — collective saving, investment, and member services." />
+<title>GrowthSpring Club</title>
+<meta name="description" content="GrowthSpring Club — save together, borrow responsibly, and invest as a group." />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
@@ -42,7 +43,7 @@
     /* Uniform image height for People section (group + member images) */
     --people-h:clamp(400px, 36vh, 460px);
   }
-  /* Dark theme colors copied from the "luxury" option */
+  /* Dark theme colors */
   [data-theme="dark"]{
     --bg:#0B0E14;
     --bg-soft:#10141D;
@@ -60,29 +61,22 @@
     --fab-fg:#ffffff;
     --toggle-fg:#ffffff;
   }
-/* --- Dark mode tweaks --- */
-[data-theme="dark"] .site-header{
-  color: var(--gold); /* brand + top-nav text becomes gold */
-}
-
-/* Primary CTA ("Log in"): gold bg + navy text in dark mode */
-[data-theme="dark"] .site-header .cta{
-  background: var(--gold);
-  color: var(--navy);
-  border-color: var(--gold);
-}
-
-/* Secondary CTA ("Join"): keep transparent, but text/border gold for consistency */
-[data-theme="dark"] .site-header .cta.secondary{
-  background: transparent;
-  color: var(--gold);
-  border-color: var(--gold);
-}
-
-[data-theme="dark"] .kicker{ color: var(--gold); }
-[data-theme="dark"]{
-  --stat-accent: var(--gold);
-}
+  /* --- Dark mode tweaks --- */
+  [data-theme="dark"] .site-header{
+    color: var(--gold); /* brand + top-nav text becomes gold */
+  }
+  [data-theme="dark"] .site-header .cta{
+    background: var(--gold);
+    color: var(--navy);
+    border-color: var(--gold);
+  }
+  [data-theme="dark"] .site-header .cta.secondary{
+    background: transparent;
+    color: var(--gold);
+    border-color: var(--gold);
+  }
+  [data-theme="dark"] .kicker{ color: var(--gold); }
+  [data-theme="dark"]{ --stat-accent: var(--gold); }
 
   /* Reset-ish */
   *,*::before,*::after{box-sizing:border-box}
@@ -92,7 +86,6 @@
     font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
     line-height:1.6;
     text-rendering:optimizeLegibility;
-    /* Push content below fixed bars */
     padding-top:var(--fixed-stack);
   }
   a{color:inherit;text-decoration:none}
@@ -117,7 +110,6 @@
     gap:16px;padding:0 20px;width:100%;
   }
   .brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.2px}
-  .brand svg{height:28px;width:28px;color:var(--gold)}
   .brand span{font-family:Quicksand, Inter, sans-serif;font-weight:700;font-size:larger}
 
   .cta{
@@ -129,7 +121,7 @@
   .cta:hover{filter:brightness(0.98)}
   .cta:active{transform:translateY(1px)}
 
-  /* Fixed chapter nav (continued scroll UI) */
+  /* Fixed chapter nav */
   .chapternav{
     position:fixed;top:var(--header-h);left:0;right:0;z-index:9998;
     height:var(--chapnav-h);
@@ -186,8 +178,44 @@
     .grid.cols-4{grid-template-columns:repeat(4,1fr)}
   }
 
-  /* Stats cards (Chapter 1 right column) */
-  .stats{display:grid;gap:12px}
+  /* Lists */
+  ul.list, ol.olist{margin:12px 0 0 0; padding-left:18px}
+  ul.list li+li, ol.olist li+li{margin-top:8px}
+  .muted{color:var(--muted)}
+  .note{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:14px 16px;
+  }
+  .badge-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;
+    border:1px solid var(--line);
+    background:var(--card);
+    border-radius:999px;
+    padding:8px 12px;
+    font-weight:600;
+    color:var(--ink);
+    font-size:14px;
+  }
+  .badge strong{color:var(--navy)}
+  [data-theme="dark"] .badge strong{color:var(--gold)}
+  .micro{
+    display:grid; gap:10px;
+    margin-top:14px;
+  }
+  .micro .tile{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:14px 14px;
+  }
+  .tile h4{margin:0 0 6px 0}
+  .tile p{margin:0;color:var(--muted);font-size:14px}
+
+  /* Stats cards */
+  .stats{display:grid;gap:15px}
   .stat-card{
     background:var(--card);border:1px solid var(--line);
     border-radius:12px;padding:16px 18px;
@@ -199,11 +227,8 @@
   .img-card{
     background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;position:relative;
   }
-  /* Uniform height for ALL People images (group + member) */
   .img-card.same-h{height:var(--people-h)}
   .img-card img{width:100%;height:100%;object-fit:cover;display:block}
-
-  .img-caption{padding:10px 12px;font-size:14px;color:var(--muted);border-top:1px solid var(--line)}
 
   /* Team rows */
   .team-row{
@@ -235,20 +260,18 @@
   }
   .fab.show{display:inline-flex}
 
-  /* THEME TOGGLE (bottom-left, unobtrusive) */
+  /* THEME TOGGLE */
   .theme-toggle{
     position:fixed;left:16px;bottom:16px;z-index:9998;
     width:44px;height:44px;border-radius:999px;
     display:inline-flex;align-items:center;justify-content:center;
     background:var(--card);border:1px solid var(--line);
     box-shadow:0 8px 20px rgba(0,0,0,.08);
-    color:var(--toggle-fg); /* icon color */
+    color:var(--toggle-fg);
     cursor:pointer;
   }
   .theme-toggle:hover{filter:brightness(0.98)}
   .theme-toggle svg{width:22px;height:22px;display:block}
-
-
 
   /* Reduced motion */
   @media (prefers-reduced-motion:reduce){
@@ -263,33 +286,87 @@
     a[href]::after{content:" <" attr(href) ">"; font-size:12px;color:#555}
   }
 
-/* 1) Align image edges with titles: kill default <figure> margins */
-    figure { margin: 0; }
+  /* Align <figure> */
+  figure { margin: 0; }
 
-/* 2) MOBILE: widen images but keep edges aligned with headings (same section padding) */
-@media (max-width: 819.98px){
-  /* Keep the same left/right padding as other sections so titles & images share the same edge */
-  #people { padding-left: 20px; padding-right: 20px; }
-
-  /* Member portraits: 2-up with tighter gap so tiles aren’t squished */
-  .members-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 10px !important; /* was visually large; reduce to widen each tile */
+  /* MOBILE tweaks */
+  @media (max-width: 819.98px){
+    #people { padding-left: 20px; padding-right: 20px; }
+    .kicker{ margin-left:1vw }
+    :root { --people-h: clamp(260px, 48vw, 260px); }
   }
-  .kicker{
-    margin-left:1vw
+  @media (max-width: 380px){
+    :root { --people-h: clamp(240px, 52vw, 220px); }
   }
-  /* Make the uniform tile height a bit shorter on small screens to avoid the "tall + narrow" feel */
-  :root { --people-h: clamp(260px, 48vw, 260px); }
-}
 
-/* 3) (Optional) Very small phones: tighten a bit more */
-@media (max-width: 380px){
-  .members-grid { gap: 8px !important; }
-  :root { --people-h: clamp(240px, 52vw, 220px); }
-}
+  /* Horizontal scrollers for People */
+  .hscroller{
+    overflow-x:auto; overflow-y:hidden;
+    -webkit-overflow-scrolling:touch;
+    display:flex; gap:14px; padding:6px 2px 12px 2px;
+    scroll-snap-type:x mandatory; border-bottom:1px solid var(--line);
+  }
+  .hscroller::-webkit-scrollbar{ height:10px }
+  .hscroller::-webkit-scrollbar-track{
+    background: color-mix(in oklab, var(--card) 70%, transparent);
+    border-radius:999px;
+  }
+  .hscroller::-webkit-scrollbar-thumb{
+    background: color-mix(in oklab, var(--navy) 35%, var(--gold) 25%);
+    border-radius:999px; border:2px solid transparent; background-clip:padding-box;
+  }
+  .hscroller{ scrollbar-color: color-mix(in oklab, var(--navy) 35%, var(--gold) 25%)
+                               color-mix(in oklab, var(--card) 70%, transparent); }
+  .hitem{ scroll-snap-align:start; flex:0 0 auto }
+  .img-scroller .img-card{ inline-size: min(91vw, 580px); }
+  .portrait-scroller .img-card{ inline-size: min(60vw, 230px); }
 
+  /* Documents (Accordion) */
+  .docs-acc{ display:grid; gap:10px }
+  .acc-item{
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    background:var(--card);
+    overflow:hidden;
+  }
+  .acc-btn{
+    width:100%; text-align:left; display:flex; align-items:center; justify-content:space-between;
+    gap:12px; padding:16px 18px; background:transparent; border:0; cursor:pointer;
+  }
+  .acc-btn .title{
+    font-family: Quicksand, Inter, sans-serif;
+    font-weight: 700;
+    letter-spacing: .2px;
+    font-size: clamp(18px, 2.2vw, 22px);
+    color: var(--ink);
+  }
+  [data-theme="dark"] .acc-btn .title{ color: var(--gold); }
+  .acc-btn .chev{
+    width:18px; height:18px; flex:0 0 auto; color:var(--muted);
+    transition: transform .18s ease;
+  }
+  .acc-item[aria-expanded="true"] .chev{ transform:rotate(90deg) }
 
+  .acc-panel{
+    display:grid;
+    padding:0 16px 14px 16px;
+    border-top:1px solid var(--line);
+  }
+  .acc-panel-inner{
+    overflow:hidden; max-height:0; transition:max-height .22s ease;
+  }
+  .acc-item[aria-expanded="true"] .acc-panel-inner{ max-height:700px }
+  .acc-links{
+    margin:10px 0 0 0; padding-left:18px; color:var(--muted); font-size:14px; line-height:1.55;
+  }
+  .acc-links li+li{ margin-top:6px }
+  .acc-links a{ text-decoration:underline; text-underline-offset:2px }
+  .acc-links a:hover{ filter:brightness(.98) }
+  @media (prefers-reduced-motion: reduce){
+    .acc-panel-inner{ transition:none }
+    .acc-btn .chev{ transition:none }
+  }
+  .acc-btn:hover{ filter: brightness(.98); }
 </style>
 </head>
 <body>
@@ -299,12 +376,11 @@
   <header class="site-header" role="banner">
     <div class="header-inner">
       <a class="brand" href="#top" aria-label="GrowthSpring Club - Home">
-        <!-- Logo -->
         <span>GrowthSpring</span>
       </a>
       <nav aria-label="Quick">
         <a class="cta secondary" href="#join">Join</a>
-        <a class="cta" href="https://auth.growthspringers.com">Log in</a>
+        <a class="cta" href="#login">Log in</a>
       </nav>
     </div>
   </header>
@@ -318,30 +394,37 @@
       <a class="chip" href="#activities" data-id="activities"><sup>04</sup> Current Activities</a>
       <a class="chip" href="#people" data-id="people"><sup>05</sup> The People</a>
       <a class="chip" href="#team" data-id="team"><sup>06</sup> Admin Team</a>
+      <a class="chip" href="#documents" data-id="documents"><sup>07</sup> Documents</a>
     </div>
   </div>
 
   <main id="top">
-    <!-- 01 Who we are (stats now on the right column) -->
+    <!-- 01 Who we are -->
     <section id="who" aria-labelledby="who-title">
-        <div class="kicker">Chapter 01</div>
+      <div class="kicker">Chapter 01</div>
       <div class="wrap grid cols-2">
         <div>
           <h1 class="h1" id="who-title">A collective that turns small steps into big outcomes</h1>
           <p class="lede">
-            We’re a group of friends who pool resources to access opportunities that are hard or costly to pursue alone.
-            Founded in 2021, we’ve grown from 4 to 31 members with over 65M in savings—guided by ambition and prudence.
+            GrowthSpring is a member focused club for people who are open to working with others towards common goals, want access to fair credit and steady,
+            long-term investing. 
           </p>
+
+          <div class="badge-row" aria-label="Highlights">
+            <span class="badge">💰 <strong>Save</strong> monthly</span>
+            <span class="badge">🤝 <strong>Borrow</strong> responsibly</span>
+            <span class="badge">📈 <strong>Invest</strong> as a group</span>
+          </div>
         </div>
         <div>
           <div class="stats">
             <div class="stat-card">
               <p class="stat-k">Members</p>
-              <div class="stat-v">31</div>
+              <div class="stat-v">32</div>
             </div>
             <div class="stat-card">
               <p class="stat-k">Total Savings</p>
-              <div class="stat-v">65M+</div>
+              <div class="stat-v">90M+</div>
             </div>
             <div class="stat-card">
               <p class="stat-k">Founded</p>
@@ -354,23 +437,30 @@
 
     <!-- 02 Mission & Objectives -->
     <section id="mission" aria-labelledby="mission-title">
-        <div class="kicker">Chapter 02</div>
+      <div class="kicker">Chapter 02</div>
       <div class="wrap grid cols-2">
         <div class="plate reveal">
           <h2 class="h1" id="mission-title">Mission</h2>
           <p class="lede">
-            Improve members’ socio-economic welfare through collective saving and investing, with flexible, accessible credit—so every member thrives.
+            Improve members’ socio-economic welfare through collective saving and investing,
+            with flexible, accessible credit—so every member thrives.
           </p>
+
+          <div class="note" style="margin-top:10px">
+            <strong>What this looks like:</strong>
+            <div class="muted">steady saving, fair lending, smart group opportunities, and support when life happens.</div>
+          </div>
         </div>
+
         <div class="plate reveal">
           <h3 style="margin:0 0 10px 0">Objectives</h3>
           <ul class="list">
-            <li>Encourage disciplined saving and investing.</li>
-            <li>Provide easy access to credit.</li>
-            <li>Offer support to members in times of need.</li>
-            <li>Foster unity, cooperation, and professional networking.</li>
-            <li>Share guidance to improve members’ economic welfare.</li>
+            <li>Build a strong saving culture among members.</li>
+            <li>Provide timely loans with clear repayment rules.</li>
+            <li>Strengthen member unity, cooperation, and professional networks.</li>
             <li>Invest pooled funds and manage group assets prudently.</li>
+            <li>Support members in times of need through welfare structures.</li>
+            <li>Promote financial knowledge and better decisions over time.</li>
           </ul>
         </div>
       </div>
@@ -378,103 +468,162 @@
 
     <!-- 03 Club Regulations -->
     <section id="regulations" aria-labelledby="reg-title">
-        <div class="kicker">Chapter 03</div>
+      <div class="kicker">Chapter 03</div>
       <div class="wrap">
         <h2 class="h1" id="reg-title">Club Regulations</h2>
+        <p class="lede">
+          The essentials, in plain language. For full details, use the Documents section.
+        </p>
+
         <div class="grid cols-3" style="margin-top:18px">
           <div class="plate reveal">
             <h3>Saving & Points</h3>
-            <p>Monthly minimum 20k. No penalties; Points are gained for saving—3 points per 10k saved. Points can be transferred or sold (except the initial 500), or used to pay interest on loans.</p>
+            <p class="muted" style="margin:0">
+              Minimum saving is <strong>UGX 20,000 per month</strong>. You earn <strong>3 points per UGX 10,000 saved</strong>.
+              The first <strong>500 points</strong> are restricted. Points can support loan interest rules (including after month 6) based on policy.
+            </p>
           </div>
+
           <div class="plate reveal">
             <h3>Profits & Withdrawals</h3>
-            <p>Deposits are withdrawn only when exiting the Club. Profits are distributed annually; members choose to re-invest or withdraw.</p>
+            <p class="muted" style="margin:0">
+              <strong>Savings are not withdrawable unless you are exiting the Club.</strong>
+              Profits are shared annually; members may choose to re-invest or withdraw profits, as approved.
+            </p>
           </div>
+
           <div class="plate reveal">
             <h3>Loans</h3>
-            <p>2% per month interest on remaining balance. Loan limit: 2× savings minus unpaid loans. Max duration 2 years (smaller loans under 1 year). After month 6, points clear interest. Guarantors required beyond savings for new members.</p>
+            <p class="muted" style="margin:0">
+              Interest is <strong>2% per month</strong> on the remaining balance.
+              Loan limit is <strong>1.2× to 1.7×</strong> of savings depending on repayment discipline.
+              <strong>New members can borrow up to their savings</strong> unless guarantors support the extra amount or trustworthiness is confirmed over time.
+              Max duration is <strong>2 years</strong> (smaller loans may be shorter).
+            </p>
           </div>
         </div>
+
         <div class="plate reveal" style="margin-top:18px">
           <h3>Meetings</h3>
-          <p>Held twice a year; members attend at least one (in person or online).</p>
+          <p class="muted" style="margin:0">
+            We meet twice a year to align, review progress, and plan ahead. Members are expected to attend at least one meeting per year (in person or online).
+          </p>
         </div>
+
       </div>
     </section>
 
-    <!-- 04 Current Activities (demo card on the right) -->
+    <!-- 04 Current Activities -->
     <section id="activities" aria-labelledby="act-title">
-        <div class="kicker">Chapter 04</div>
-      <div class="wrap grid cols-2">
+      <div class="kicker">Chapter 04</div>
+      <div class="wrap grid cols-1">
         <div>
           <h2 class="h1" id="act-title">Focused on Members</h2>
+          <p class="lede">
+            We keep things practical: predictable saving, fair lending, and opportunities that become possible when we move together.
+          </p>
           <ul class="list">
-            <li><strong>Loans:</strong> Fast access—funds in &lt; 24 hours based on savings.</li>
-            <li><strong>Discounts:</strong> We negotiate better rates using collective buying power.</li>
-            <li><strong>Partnerships:</strong> We support members’ businesses with capital and demand.</li>
+            <li><strong>Loans:</strong> Member loans from the Savings Fund (subject to eligibility and limits).</li>
+            <li><strong>Welfare support:</strong> Support in major life events and emergencies through the Club Fund (rules in policy).</li>
+            <li><strong>Group opportunities:</strong> Joint investments and member partnerships when vetted and approved.</li>
+            <li><strong>Land cycles:</strong> Optional land scheme participation using a slot system (details in Financial Policy).</li>
           </ul>
         </div>
+
         <div>
           <div id="login" class="plate reveal">
             <h3 style="margin-top:0">Try the app (demo)</h3>
-            <p><strong>Email:</strong> <em>example1@gmail.com</em><br><strong>Password:</strong> <em>11111111</em></p>
+            <p class="muted" style="margin:0 0 10px 0">
+              Explore how saving, loans, and balances appear in the system.
+            </p>
+            <p style="margin:0">
+              <strong>Email:</strong> <em>example1@gmail.com</em><br>
+              <strong>Password:</strong> <em>11111111</em>
+            </p>
           </div>
+
         </div>
       </div>
     </section>
 
     <!-- 05 The People -->
     <section id="people" aria-labelledby="people-title">
-        <div class="kicker">Chapter 05</div>
+      <div class="kicker">Chapter 05</div>
       <div class="wrap">
         <h2 class="h1" id="people-title">The People</h2>
-        <p class="lede">Moments and faces that shape our culture.</p>
+        <p class="lede">Moments and faces that shape our culture—consistency, friendship, and shared goals.</p>
 
-        <!-- Large dated photos: full width on mobile, two-up on desktop -->
-        <div class="grid cols-2" style="margin-top:18px">
-            <figure class="img-card reveal same-h">
-              <img src="./2025 PICS/PXL_20250601_122340145~2.jpg" alt="June 2025 gathering">
-            </figure>
-            <figure class="img-card reveal same-h">
-              <img src="./2025 PICS/PXL_20250601_133851089.jpg" alt="June 2025 portrait">
-            </figure>
-          </div>
-          <div class="grid cols-2" style="margin-top:18px">
-          <figure class="img-card reveal same-h">
+        <!-- Row 1: GROUP / GATHERING PHOTOS (horizontal) -->
+        <div class="hscroller img-scroller loop" id="groupPics">
+          <figure class="img-card reveal same-h hitem">
+            <img src="./2025 PICS/PXL_20250601_122340145~2.jpg" alt="June 2025 gathering">
+          </figure>
+          <figure class="img-card reveal same-h hitem">
+            <img src="./2025 PICS/PXL_20250601_133851089.jpg" alt="June 2025 portrait">
+          </figure>
+          <figure class="img-card reveal same-h hitem">
+            <img src="./2025 PICS/PXL_20251207_144259261~2.jpg" alt="Dec 2025 gathering">
+          </figure>
+          <figure class="img-card reveal same-h hitem">
+            <img src="./2025 PICS/PXL_20251207_124712153.jpg" alt="Dec 2025 gathering">
+          </figure>
+          <figure class="img-card reveal same-h hitem">
             <img src="./2024 PICS/PXL_20240602_155628307.jpg" alt="June 2024 gathering">
           </figure>
-          <figure class="img-card reveal same-h">
+          <figure class="img-card reveal same-h hitem">
             <img src="./2024 PICS/PXL_20241201_143008708.PORTRAIT.jpg" alt="December 2024 portrait">
           </figure>
         </div>
-        <!-- Member grids: 4-up desktop, 2-up mobile (class hooks added) -->
-        <div class="grid cols-4 members-grid" style="margin-top:24px">
-          <figure class="img-card reveal same-h">
+
+        <!-- Row 2: SINGLE PORTRAITS (horizontal) -->
+        <div class="hscroller portrait-scroller loop" id="singlePics" style="margin-top:18px">
+          <figure class="img-card reveal same-h hitem">
             <img src="./2024 PICS/PXL_20241201_143116356.PORTRAIT.jpg" alt="Member portrait">
           </figure>
-          <figure class="img-card reveal same-h">
+          <figure class="img-card reveal same-h hitem">
             <img src="./2024 PICS/PXL_20241201_143134344.PORTRAIT.jpg" alt="Member portrait">
           </figure>
-          <figure class="img-card reveal same-h">
+          <figure class="img-card reveal same-h hitem">
             <img src="./2024 PICS/PXL_20241201_143145903.PORTRAIT.jpg" alt="Member portrait">
           </figure>
-          <figure class="img-card reveal same-h">
+          <figure class="img-card reveal same-h hitem">
             <img src="./2024 PICS/PXL_20241201_142915883.jpg" alt="Member photo">
           </figure>
-        </div>
-
-        <div class="grid cols-4 members-grid" style="margin-top:18px">
-          <figure class="img-card reveal same-h">
+          <figure class="img-card reveal same-h hitem">
             <img src="./2024 PICS/PXL_20241201_121838514.PORTRAIT.jpg" alt="Member portrait">
           </figure>
-          <figure class="img-card reveal same-h">
+          <figure class="img-card reveal same-h hitem">
             <img src="./2024 PICS/PXL_20241201_142901404.MP.jpg" alt="Member photo">
           </figure>
-          <figure class="img-card reveal same-h">
+          <figure class="img-card reveal same-h hitem">
             <img src="./2024 PICS/PXL_20241201_142905507.jpg" alt="Member photo">
           </figure>
-          <figure class="img-card reveal same-h">
+          <figure class="img-card reveal same-h hitem">
             <img src="./2024 PICS/PXL_20241201_142909649.jpg" alt="Member photo">
+          </figure>
+          <figure class="img-card reveal same-h hitem">
+            <img src="./2025 PICS/PXL_20251207_122213584.PORTRAIT.jpg" alt="Member photo">
+          </figure>
+          <figure class="img-card reveal same-h hitem">
+            <img src="./2025 PICS/PXL_20251207_122246542.PORTRAIT.jpg" alt="Member photo">
+          </figure>
+          <figure class="img-card reveal same-h hitem">
+            <img src="./2025 PICS/PXL_20251207_122258039.PORTRAIT.jpg" alt="Member photo">
+          </figure>
+          <figure class="img-card reveal same-h hitem">
+            <img src="./2025 PICS/PXL_20251207_122338046.PORTRAIT~2.jpg" alt="Member photo">
+          </figure>
+          <figure class="img-card reveal same-h hitem">
+            <img src="./2025 PICS/PXL_20251207_124727996.MP.jpg" alt="Member photo">
+          </figure>
+          <figure class="img-card reveal same-h hitem">
+            <img src="./2025 PICS/PXL_20251207_144423794.PORTRAIT.ORIGINAL.jpg" alt="Member photo">
+          </figure>
+          <figure class="img-card reveal same-h hitem">
+            <img src="./2025 PICS/PXL_20251207_144457369.PORTRAIT~2.jpg" alt="Member photo">
+          </figure>
+          <figure class="img-card reveal same-h hitem">
+            <img src="./2025 PICS/PXL_20251207_144613074.PORTRAIT~2.jpg" alt="Member photo">
           </figure>
         </div>
       </div>
@@ -482,16 +631,19 @@
 
     <!-- 06 Admin Team -->
     <section id="team" aria-labelledby="team-title">
-        <div class="kicker">Chapter 06</div>
+      <div class="kicker">Chapter 06</div>
       <div class="wrap">
         <h2 class="h1" id="team-title">Admin Team</h2>
+        <p class="lede">
+          A small team keeps records accurate, systems running, and members informed—so the Club stays stable and trustworthy.
+        </p>
 
         <div class="grid cols-3" style="margin-top:12px">
           <div class="team-row reveal">
             <img src="./ADMINS/UNQ_7860~2.JPG" alt="Mwebe Blaise">
             <div>
               <h4 style="margin:0 0 6px 0">Mwebe Blaise <span class="small">— Chairman</span></h4>
-              <p style="margin:0">Leads club direction and programs. Passionate for business and innovation.</p>
+              <p style="margin:0">Direction, oversight, partnerships, and investment follow-up to protect member value.</p>
             </div>
           </div>
 
@@ -499,7 +651,7 @@
             <img src="./ADMINS/IMG-20220731-WA0039~4.jpg" alt="Omodo Joshua">
             <div>
               <h4 style="margin:0 0 6px 0">Omodo Joshua <span class="small">— Secretary</span></h4>
-              <p style="margin:0">Records and internal audit. Civil Engineer with a passion for Christian ministry.</p>
+              <p style="margin:0">Records, minutes, communication, and member coordination; keeps decisions documented.</p>
             </div>
           </div>
 
@@ -507,15 +659,15 @@
             <img src="./ADMINS/PXL_20241201_121918563.PORTRAIT~2.jpg" alt="Kawuma Andrew">
             <div>
               <h4 style="margin:0 0 6px 0">Kawuma Andrew <span class="small">— Treasurer</span></h4>
-              <p style="margin:0">Manages all Club financial transactions. Interests in finance and business.</p>
+              <p style="margin:0">Finance & treasury: reconciliations, reporting, and transaction controls for accuracy.</p>
             </div>
           </div>
 
           <div class="team-row reveal">
-            <img src="./ADMINS/ariko.jpg" alt="Ariko Stephen">
+            <img src="./ADMINS/PXL_20241201_143134344.PORTRAIT~2.jpg" alt="Ariko Stephen">
             <div>
               <h4 style="margin:0 0 6px 0">Ariko Stephen <span class="small">— IT</span></h4>
-              <p style="margin:0">Builds and maintains the app and records systems. Interests in software programming.</p>
+              <p style="margin:0">Systems reliability, backups, member support, and data protection.</p>
             </div>
           </div>
 
@@ -523,7 +675,7 @@
             <img src="./ADMINS/IMG-20250328-WA0003~2.jpg" alt="Atim Dyna Loy">
             <div>
               <h4 style="margin:0 0 6px 0">Atim Dyna <span class="small">— Public Relations</span></h4>
-              <p style="margin:0">Communications and events. Conservation Biologist; strong mobiliser and team player.</p>
+              <p style="margin:0">Partnerships, member engagement, and communication support for benefits and events.</p>
             </div>
           </div>
 
@@ -531,7 +683,7 @@
             <img src="./IMG-20250409-WA0012~2.jpg" alt="Rwothungeo Rodgers">
             <div>
               <h4 style="margin:0 0 6px 0">Rwothungeo Rodgers <span class="small">— Media</span></h4>
-              <p style="margin:0">Branding and visual storytelling. Civil Engineer; design and photography.</p>
+              <p style="margin:0">Branding, storytelling, and visuals that keep GrowthSpring clear and memorable.</p>
             </div>
           </div>
         </div>
@@ -540,12 +692,25 @@
           <h3 style="margin-top:0">How to Join</h3>
           <ol class="olist">
             <li>Get a referral from an existing member.</li>
-            <li>Review membership terms and conditions.</li>
-            <li>Contact an admin—if accepted, your club account will be created (we reply within 24 hours).</li>
+            <li>Read the key documents (details).</li>
+            <li>Submit the membership application form.</li>
+            <li>If accepted, your club account will be created and you’ll be guided through onboarding.</li>
           </ol>
+
         </div>
       </div>
     </section>
+
+    <!-- 07 Documents -->
+    <section id="documents" aria-labelledby="docs-title">
+      <div class="kicker">Chapter 07</div>
+      <div class="wrap">
+        <h2 class="h1" id="docs-title">Documents</h2>
+
+        <div id="docsAccordion" class="docs-acc"></div>
+      </div>
+    </section>
+
   </main>
 
   <footer role="contentinfo">
@@ -563,10 +728,8 @@
 
   <!-- Theme toggle -->
   <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme" title="Toggle theme">
-    <!-- Icon uses currentColor; white in dark, navy in light -->
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <!-- Combined sun/moon glyph -->
       <path d="M12 3v2M12 19v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M3 12h2M19 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
       <path d="M12 8a4 4 0 1 0 4 4 4 4 0 0 0-4-4Z"/>
     </svg>
@@ -582,35 +745,32 @@
   (function themeInit(){
     const root = document.documentElement;
     const stored = localStorage.getItem('gsc-theme');
-    if (stored) {
+    if (stored !== null) {
       root.setAttribute('data-theme', stored);
     } else {
-      // respect user OS preference
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       root.setAttribute('data-theme', prefersDark ? 'dark' : '');
     }
     document.getElementById('themeToggle').addEventListener('click', () => {
       const cur = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      root.setAttribute('data-theme', cur === 'light' ? '' : 'dark'); // empty = light
+      root.setAttribute('data-theme', cur === 'light' ? '' : 'dark');
       localStorage.setItem('gsc-theme', cur === 'light' ? '' : 'dark');
     });
   })();
 
-  // Progress bar
-// Progress bar (guarded)
-const progress = document.querySelector('.progress');
-if (progress) {
-  const updateProgress = () => {
-    const h = document.documentElement;
-    const scrollTop = h.scrollTop || document.body.scrollTop;
-    const scrollHeight = h.scrollHeight - h.clientHeight;
-    const p = scrollHeight > 0 ? scrollTop / scrollHeight : 0;
-    progress.style.transform = `scaleX(${p})`;
-  };
-  document.addEventListener('scroll', updateProgress, { passive: true });
-  updateProgress();
-}
-
+  // Progress bar (guarded)
+  const progress = document.querySelector('.progress');
+  if (progress) {
+    const updateProgress = () => {
+      const h = document.documentElement;
+      const scrollTop = h.scrollTop || document.body.scrollTop;
+      const scrollHeight = h.scrollHeight - h.clientHeight;
+      const p = scrollHeight > 0 ? scrollTop / scrollHeight : 0;
+      progress.style.transform = `scaleX(${p})`;
+    };
+    document.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+  }
 
   // Scroll-spy for chapters + hash updates (and keep active chip visible)
   const chips = Array.from(document.querySelectorAll('.chip'));
@@ -621,7 +781,6 @@ if (progress) {
     chips.forEach(chip => chip.dataset.current = (chip.dataset.id === id));
   };
 
-  // Ensure active chip is visible in the horizontal scroller
   const ensureActiveChipVisible = (id) => {
     const active = chips.find(ch => ch.dataset.id === id);
     if (!active) return;
@@ -637,11 +796,8 @@ if (progress) {
   const scheduleHashUpdate = (id) => {
     if (hashUpdateId) cancelAnimationFrame(hashUpdateId);
     hashUpdateId = requestAnimationFrame(() => {
-      if (history.replaceState) {
-        history.replaceState(null, '', '#' + id);
-      } else {
-        location.hash = id;
-      }
+      if (history.replaceState) history.replaceState(null, '', '#' + id);
+      else location.hash = id;
     });
   };
 
@@ -701,10 +857,111 @@ if (progress) {
     ensureActiveChipVisible(chips[next].dataset.id);
   });
 
-  // Ensure clicking a chip updates aria state + visibility immediately
   chips.forEach(chip => chip.addEventListener('click', () => {
     setCurrent(chip.dataset.id); syncAria(); ensureActiveChipVisible(chip.dataset.id);
   }));
+
+  // ---------- Documents data (updated to match latest docs/policy) ----------
+  const documentsData = [
+    {
+      title: "Club Rules & Policies",
+      links: [
+        { label: "Club Regulations — Summary (PDF)", href: "./docs/GROWTHSPRING CONSTITUTION SUMMARY.pdf" },
+        { label: "Full Constitution (PDF)", href: "./docs/GROWTHSPRING INVESTMENT CLUB CONSTITUTION.pdf" },
+        { label: "Financial Policy 2026 (Savings & Loans, Land, Admin Compensation) (PDF)", href: "./docs/GROWTHSPRING INVESTMENT CLUB FINANCIAL POLICY 2026.pdf" }
+      ]
+    },
+    {
+      title: "Membership Forms",
+      links: [
+        { label: "Membership Application Form (PDF)", href: "./docs/GROWTHSPRING INVESTMENT CLUB MEMBERSHIP APPLICATION FORM.pdf" },
+        { label: "Exit / Withdrawal Form (PDF)", href: "./docs/GROWTHSPRING INVESTMENT CLUB WITHDRAWAL.pdf" }
+      ]
+    },
+    {
+      title: "Reports",
+      links: [
+        { label: "Treasurer's Report 2024 (PDF)", href: "./docs/TREASURER'S REPORT 2024.pdf" },
+        { label: "Treasurer's Report 2025 (PDF)", href: "./docs/TREASURER'S REPORT 2025.pdf" }
+      ]
+    }
+  ];
+
+  // ---------- Render & behavior ----------
+  (function renderDocuments(){
+    const host = document.getElementById('docsAccordion');
+    if (!host) return;
+
+    const chev = `
+      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>`;
+
+    const makeItem = ({title, links}, idx) => `
+      <div class="acc-item" aria-expanded="false">
+        <button class="acc-btn" aria-controls="acc-panel-${idx}" aria-expanded="false">
+          <span class="title">${title}</span>
+          ${chev}
+        </button>
+        <div class="acc-panel" id="acc-panel-${idx}" role="region" aria-label="${title}">
+          <div class="acc-panel-inner">
+            <ul class="acc-links">
+              ${links.map(l => `<li><a href="${l.href}" target="_blank" rel="noopener">${l.label}</a></li>`).join('')}
+            </ul>
+          </div>
+        </div>
+      </div>
+    `;
+
+    host.innerHTML = documentsData.map(makeItem).join('');
+
+    const items = Array.from(host.querySelectorAll('.acc-item'));
+    const buttons = items.map(i => i.querySelector('.acc-btn'));
+    const panels = items.map(i => i.querySelector('.acc-panel'));
+
+    function closeAll(){
+      items.forEach((it, i) => {
+        it.setAttribute('aria-expanded','false');
+        buttons[i].setAttribute('aria-expanded','false');
+        panels[i].querySelector('.acc-panel-inner').style.maxHeight = '0px';
+      });
+    }
+
+    function openIdx(i){
+      const inner = panels[i].querySelector('.acc-panel-inner');
+      inner.style.maxHeight = inner.scrollHeight + 'px';
+      items[i].setAttribute('aria-expanded','true');
+      buttons[i].setAttribute('aria-expanded','true');
+    }
+
+    buttons.forEach((btn, i) => {
+      btn.addEventListener('click', () => {
+        const isOpen = items[i].getAttribute('aria-expanded') === 'true';
+        closeAll();
+        if (!isOpen) openIdx(i);
+      });
+
+      btn.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown'){
+          e.preventDefault();
+          buttons[(i+1) % buttons.length].focus();
+        } else if (e.key === 'ArrowUp'){
+          e.preventDefault();
+          buttons[(i-1+buttons.length) % buttons.length].focus();
+        } else if (e.key === 'Home'){
+          e.preventDefault();
+          buttons[0].focus();
+        } else if (e.key === 'End'){
+          e.preventDefault();
+          buttons[buttons.length-1].focus();
+        }
+      });
+    });
+
+    // Open the first item by default (nice for first-time visitors)
+    openIdx(0);
+  })();
 </script>
 </body>
 </html>
